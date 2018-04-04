@@ -23,7 +23,6 @@ class JsonAuth
         $data = Token::getPayload($token);
         $decoded = json_decode($data);
         $user = $getUser->byId($decoded->user_id);
-        //$user = get_user_by('id', $decoded->user_id);
 
         if (!$user) {
             return false;
@@ -31,5 +30,10 @@ class JsonAuth
 
         return true;
 
+    }
+
+    public static function check($token, $secret)
+    {
+        return self::verify(new GetUser, $token, $secret);
     }
 }
