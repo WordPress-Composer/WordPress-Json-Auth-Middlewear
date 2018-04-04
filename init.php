@@ -42,10 +42,12 @@ add_action('rest_api_init', function() use ($secret) {
 });
 
 add_action('rest_api_init', function() use ($secret) {
-    register_rest_route('wcom/jwt/v1', '/verify/(?P<token>\S+)', [
+    register_rest_route('wcom/jwt/v1', '/verify', [
         'methods' => 'GET',
         'callback' => function(WP_REST_Request $request) use ($secret) {
-            $token = $request->get_param('token');
+            $headers = apache_request_headers();
+            $auth = explode("Bearer ", $headers['Authorization']);
+            $token = $auth[1];
             $result = JsonAuth::verify(new GetUser, $token, $secret);
 
             if (!$result) {

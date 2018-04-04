@@ -2,9 +2,11 @@
 
 Wordpress JWT Middlewear
 
+---
+
 ### # Login
 
-| | |
+| - | - |
 |-|-|
 | Method | POST | 
 | Route | /wp-json/wcom/jwt/v1/action/login 
@@ -28,9 +30,11 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 }
 ```
 
+---
+
 ### # Verify
 
-| | |
+|-|-|
 |-|-|
 | Method | GET | 
 | Route | /wp-json/wcom/jwt/v1/verify/:token
@@ -38,8 +42,8 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 #### Example
 
 ```bash
-curl http://192.168.74.100/wp-json/wcom/jwt/v1/verify/aaaaaaaaa.bbbbbbbbbb.ccccccccc
-
+curl -X GET "http://192.168.74.100/wp-json/wcom/jwt/v1/verify" \
+    -H "Authorization: Bearer $TOKEN"
 ```
 
 #### Response
@@ -49,6 +53,8 @@ curl http://192.168.74.100/wp-json/wcom/jwt/v1/verify/aaaaaaaaa.bbbbbbbbbb.ccccc
     "success": true
 }
 ```
+
+---
 
 ## Resources
 
