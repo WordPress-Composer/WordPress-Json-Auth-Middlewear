@@ -6,14 +6,21 @@
  * Author: Gemma Black <gblackuk@gmail.com>
  */
 
-use ReallySimpleJWT\Token;
+/**
+ * Prototype
+ * @todo rewrite properly
+ */
 
-add_action('rest_api_init', function() {
+use ReallySimpleJWT\Token;
+use Wcom\Jwt\JsonAuth;
+use Wcom\Jwt\GetUser;
+
+$secret = 'MY_SEcRET_123!';
+
+add_action('rest_api_init', function() use ($secret) {
     register_rest_route('wcom/jwt/v1', '/action/login', [
         'methods' => 'POST',
-        'callback' => function(WP_REST_Request $request) {
-
-            $secret = 'MY_SEcRET_123!';
+        'callback' => function(WP_REST_Request $request) use ($secret) {
             
             $username = $request->get_param('username');
             $password = $request->get_param('password');
@@ -24,12 +31,28 @@ add_action('rest_api_init', function() {
                 return wp_send_json_error($auth->get_error_data(), 400);
             }
 
-            $now = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+            $now = date('Y-m-d H:i:s', strtotime('+30 minutes'));
             $token = Token::getToken($auth->ID, $secret, $now, get_home_url());
 
             return [
                 'token' => $token   
             ];
+        }
+    ]);
+});
+
+add_action('rest_api_init', function() use ($secret) {
+    register_rest_route('wcom/jwt/v1', '/verify/(?P<token>\S+)', [
+        'methods' => 'GET',
+        'callback' => function(WP_REST_Request $request) use ($secret) {
+            $token = $request->get_param('token');
+            $result = JsonAuth::verify(new GetUser, $token, $secret);
+
+            if (!$result) {
+                wp_send_json_error([], 400);
+            } else {
+                wp_send_json(['success' => true]);
+            }
         }
     ]);
 });
