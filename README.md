@@ -104,6 +104,8 @@ loaded outside the add_actions.
 ```php
 <?php
 
+use Wcom\Jwt\JsonAuth;
+
 add_action('rest_api_init', function() use ($secret) {
     register_rest_route('wcom/jwt/v1', '/posts', [
         'methods' => 'GET',

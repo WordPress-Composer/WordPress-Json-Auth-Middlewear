@@ -13,7 +13,6 @@
 
 use ReallySimpleJWT\Token;
 use Wcom\Jwt\JsonAuth;
-use Wcom\Jwt\GetUser;
 
 $secret = 'MY_SEcRET_123!';
 
@@ -61,12 +60,9 @@ add_action('rest_api_init', function() use ($secret) {
     register_rest_route('wcom/jwt/v1', '/verify', [
         'methods' => 'GET',
         'callback' => function(WP_REST_Request $request) use ($secret) {
-            $headers = apache_request_headers();
-            $auth = explode("Bearer ", $headers['Authorization']);
-            $token = $auth[1];
-            $result = JsonAuth::verify(new GetUser, $token, $secret);
+            $auth = JsonAuth::check($secret);
 
-            if (!$result) {
+            if (!$auth) {
                 wp_send_json_error([], 400);
             } else {
                 wp_send_json(['success' => true]);
@@ -80,9 +76,9 @@ add_action('rest_api_init', function() use ($secret) {
         'methods' => 'GET',
         'callback' => function(WP_REST_Request $request) use ($secret) {
             
-            $result = JsonAuth::check($secret);
+            $auth = JsonAuth::check($secret);
 
-            if (!$result) {
+            if (!$auth) {
                 wp_send_json_error([], 400);
             } else {
                 wp_send_json([
