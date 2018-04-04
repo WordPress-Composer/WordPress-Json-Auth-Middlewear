@@ -1,0 +1,8 @@
+{
+    "name": "wordpresscomposer/json-auth-middlewear",
+    "description": "WordPress middlewear for the rest api with JWT authorisation",
+    "type": "wordpress-plugin",
+    "require": {
+        "rbdwllr/reallysimplejwt": "1.0.*"
+    }
+}
