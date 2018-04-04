@@ -37,8 +37,15 @@ class JsonAuth
         return date('Y-m-d H:i:s', strtotime('+30 minutes'));
     }
 
-    public static function check($token, $secret)
+    public static function check($secret)
     {
-        return self::verify(new GetUser, $token, $secret);
+        return self::verify(new GetUser, self::getTokenFromRequest(), $secret);
+    }
+
+    public static function getTokenFromRequest()
+    {
+        $headers = apache_request_headers();
+        $auth = explode("Bearer ", $headers['Authorization']);
+        return $auth[1];
     }
 }

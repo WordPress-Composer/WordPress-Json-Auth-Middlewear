@@ -79,10 +79,8 @@ add_action('rest_api_init', function() use ($secret) {
     register_rest_route('wcom/jwt/v1', '/posts', [
         'methods' => 'GET',
         'callback' => function(WP_REST_Request $request) use ($secret) {
-            $headers = apache_request_headers();
-            $auth = explode("Bearer ", $headers['Authorization']);
-            $token = $auth[1];
-            $result = JsonAuth::verify(new GetUser, $token, $secret);
+            
+            $result = JsonAuth::check($secret);
 
             if (!$result) {
                 wp_send_json_error([], 400);
@@ -90,7 +88,7 @@ add_action('rest_api_init', function() use ($secret) {
                 wp_send_json([
                     'success' => true, 
                     'posts' => get_posts([
-                        'post_status' => ['draft']
+                        'post_status' => ['any']
                     ])
                 ]);
             }
