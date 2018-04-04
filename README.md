@@ -2,20 +2,23 @@
 
 Wordpress JWT Middlewear
 
----
+## Login
 
-### # Login
+This allows you to log into WordPress from outside the WordPress dashboard.
 
-| - | - |
-|-|-|
-| Method | POST | 
-| Route | /wp-json/wcom/jwt/v1/action/login 
-| Parameters | username |
-| | admin |
+##### Method
+POST
+
+##### Route
+/wp-json/wcom/jwt/v1/action/login 
+
+##### Parameters
+username  
+admin
 
 #### Example
 
-```bash
+```shell
 curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
     -H "Content-Type: application/json" \
     -d '{"username": "admin", "password": "admin"}' \
@@ -30,20 +33,37 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 }
 ```
 
----
+## Get Token From Within WordPress Admin
 
-### # Verify
+This grabs a token that you can use within the WordPress dashboard. Sorry it's in jQuery,
+but WordPress admin still uses jQuery and doesn't look to be removing it anytime soon. But feel free
+to use fetch or axios etc.
 
-|-|-|
-|-|-|
-| Method | GET | 
-| Route | /wp-json/wcom/jwt/v1/verify/:token
+```javascript
+jQuery.post(ajaxurl, {
+  'action': 'wcom_json_auth_token'
+}, function(response) {
+	console.log(response)
+})
+```
+
+## Verify
+
+This will verify your JWT is verified, regardless of whether you logged in to
+get it, or created a token once you logged into the dashboard.
+
+##### Method
+GET
+
+##### Route
+/wp-json/wcom/jwt/v1/verify
 
 #### Example
 
-```bash
+```shell
 curl -X GET "http://192.168.74.100/wp-json/wcom/jwt/v1/verify" \
-    -H "Authorization: Bearer $TOKEN"
+    -H "Authorization: Bearer $TOKEN" \
+    | python -m json.tool
 ```
 
 #### Response
@@ -53,8 +73,6 @@ curl -X GET "http://192.168.74.100/wp-json/wcom/jwt/v1/verify" \
     "success": true
 }
 ```
-
----
 
 ## Resources
 

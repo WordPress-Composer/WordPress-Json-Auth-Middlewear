@@ -32,6 +32,11 @@ class JsonAuth
 
     }
 
+    public static function expiryDate()
+    {
+        return date('Y-m-d H:i:s', strtotime('+30 minutes'));
+    }
+
     public static function check($token, $secret)
     {
         return self::verify(new GetUser, $token, $secret);
