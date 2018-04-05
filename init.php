@@ -84,7 +84,8 @@ add_action('rest_api_init', function() use ($secret) {
                 wp_send_json([
                     'success' => true, 
                     'posts' => get_posts([
-                        'post_status' => ['any']
+                        'post_status' => ['any'],
+                        'posts_per_page' => 10
                     ])
                 ]);
             }

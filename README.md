@@ -1,4 +1,4 @@
-# WordPress-Json-Auth-Middlewear
+# WordPress JWT Authorization Middlewear
 
 Wordpress JWT Middlewear
 
@@ -133,6 +133,12 @@ curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/posts \
     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC8xOTIuMTY4Ljc0LjEwMCIsImV4cCI6IjIwMTgtMDQtMDQgMTc6MjY6MjAiLCJzdWIiOiIiLCJhdWQiOiIifQ.gFJupqx4hRACqWtZoKYjDCOepd8WZcKvtQgLf_U2578" 
 ```
 
+## Todo
+
+* Refresh token
+
 ## Resources
 
 [Simple JWT Auth Flow](https://medium.freecodecamp.org/how-to-make-authentication-easier-with-json-web-token-cc15df3f2228)
+
+[Refresh Tokens](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/)
