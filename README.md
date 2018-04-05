@@ -1,13 +1,17 @@
 # WordPress JWT Auth Check
 
-> Currently in progress
+> Currently in progress. Not ready for production.
 
-WordPress has an awesome Rest API interface that allows you to create custom endpoints. However, what happens when you
-want to have secure endpoints. Unfortunately, WordPress has not built such functionality or created examples. Instead,
-they have advised on the use of [plugins](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/) to extend the functionality for custom end points.
+WordPress has an awesome Rest API interface that allows us to create custom endpoints. However, custom endpoints that require authentication aren't part of their Rest API. Instead,
+they have advised we use [plugins](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/) to achieve this.
 
-This plugin allows logins from outside the WordPress dashboard, as well as creating tokens within it, and can be installed
-via Composer.
+This plugin:
+
+* Provides a simple API for developers to create custom end points and have authentication with a JWT system.
+* Allows logins from outside the WordPress dashboard which returns a JWT token
+* Allows already logged in users to get a JWT token through the wp_ajax system
+* Designed to be used with Composer
+* Does not require a GUI and is solely a code-based solution
 
 ## Current Issues/Decisions
 
@@ -16,6 +20,13 @@ via Composer.
 ## Requirements
 
 * Composer
+* WordPress install (works well with a [WordPress Composer](https://github.com/gemmadlou/WordPress-Composer-Starter) project)
+* A PHP server development environment
+* cURL
+
+## Installation
+
+Instructions coming soon.
 
 ## Login
 
