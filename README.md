@@ -217,6 +217,7 @@ curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/test \
 * Refresh token ? not sure if we need it
 * Interface to react with plugin
 * Correct error messages, dependent on validation
+* Code unhappy paths
 
 ## Important Notes:
 
