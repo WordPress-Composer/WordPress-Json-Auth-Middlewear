@@ -1,24 +1,27 @@
-# WordPress JWT Authorization Middlewear
+# WordPress JWT Authorization
+
+<br>
 
 > Currently in progress.
 
-WordPress has an awesome Rest API interface that allows us to create custom endpoints. However, custom endpoints don't have authentication out-the-box.
+#### The problem
+
+We have to use wp_ajax to make user authorized requests. However, can't we use the WordPress Rest API
+to make authorized requests too?
+
+#### The solution
 
 This plugin:
 
-* Provides a simple API for developers to create custom end points with JWT verification checks
+* Provides a simple API for developers to create custom WordPress Rest API end points with JWTs
 
-* Allows logins from outside the WordPress dashboard which returns a JWT token
+* Allows logins from outside the WordPress dashboard which returns a JWT
 
-* Allows already logged in users to get a JWT token through the wp_ajax system
+* Allows already logged in users to get a JWT through the wp_ajax system
 
 * Designed to be used with Composer
 
 * Does not require a GUI and is solely a code-based solution
-
-## Current Issues/Decisions
-
-* Whether to make this a WordPress Composer plugin or a simple Composer package.
 
 ## Requirements
 
@@ -87,7 +90,7 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 }
 ```
 
-## Get Token From Within WordPress Admin
+## Generate a token for a user that's already logged in
 
 This grabs a token that you can use within the WordPress dashboard. This uses WordPress' wp_ajax
 rather than their Rest API. This means, the current user would be logged in.
@@ -119,24 +122,6 @@ fetch('http://192.168.74.100/wordpress/wp-admin/admin-ajax.php', {
 
 > `credentials: 'include'` ensures that cookies in the user's browser,
 > set by WordPress are included in the ajax request.
-
-#### Axios example 
-
-**Needs verifying axios works**:
-
-```javascript
-axios
-  .post('http://192.168.74.100/wordpress/wp-admin/admin-ajax.php', {
-    action: 'wcom_json_auth_token'
-  },{
-    withCredentials: true
-  })
-  .then(response => {
-    console.log(response)
-  }).catch(response => {
-    console.log("oh no, an error: " + response.message)
-  })
-```
 
 ## Verify
 
@@ -199,7 +184,7 @@ Add the following to your functions.php or an alternative location.
 use Wcom\Jwt\JsonAuth;
 
 add_action('rest_api_init', function() use ($secret) {
-    register_rest_route('wcom/jwt/v1', '/posts', [
+    register_rest_route('wcom/jwt/v1', '/test', [
         'methods' => 'GET',
         'callback' => function(WP_REST_Request $request) use ($secret) {
             
@@ -220,8 +205,10 @@ add_action('rest_api_init', function() use ($secret) {
 });
 ```
 
+#### Test your new route works
+
 ```
-curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/posts \
+curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/test \
     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC8xOTIuMTY4Ljc0LjEwMCIsImV4cCI6IjIwMTgtMDQtMDQgMTc6MjY6MjAiLCJzdWIiOiIiLCJhdWQiOiIifQ.gFJupqx4hRACqWtZoKYjDCOepd8WZcKvtQgLf_U2578" 
 ```
 
