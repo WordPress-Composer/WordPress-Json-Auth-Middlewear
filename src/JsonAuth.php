@@ -7,7 +7,15 @@ use Exception;
 
 class JsonAuth
 {
-    public static function verify(GetUser $getUser, $token, $secret)
+    public static function initDefaultRoutes($secret)
+    {
+        Routes::wpAjaxToken($secret);
+        Routes::login($secret);
+        Routes::verify($secret);
+        Routes::lastTenPosts($secret);
+    }
+
+    public static function verify($token, $secret)
     {
 
         try {
@@ -22,24 +30,19 @@ class JsonAuth
 
         $data = Token::getPayload($token);
         $decoded = json_decode($data);
-        $user = $getUser->byId($decoded->user_id);
 
-        if (!$user) {
-            return false;
-        }
-
-        return true;
+        return !isset($decoded->user_id);
 
     }
 
     public static function expiryDate()
     {
-        return date('Y-m-d H:i:s', strtotime('+30 minutes'));
+        return date('Y-m-d H:i:s', strtotime('+1 seconds'));
     }
 
     public static function check($secret)
     {
-        return self::verify(new GetUser, self::getTokenFromRequest(), $secret);
+        return self::verify(self::getTokenFromRequest(), $secret);
     }
 
     public static function getTokenFromRequest()

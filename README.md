@@ -1,16 +1,19 @@
 # WordPress JWT Authorization Middlewear
 
-> Currently in progress. Not ready for production.
+> Currently in progress.
 
-WordPress has an awesome Rest API interface that allows us to create custom endpoints. However, custom endpoints that require authentication aren't part of their Rest API. Instead,
-they have advised we use [plugins](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/) to achieve this.
+WordPress has an awesome Rest API interface that allows us to create custom endpoints. However, custom endpoints don't have authentication out-the-box.
 
 This plugin:
 
-* Provides a simple API for developers to create custom end points and have authentication with a JWT system.
+* Provides a simple API for developers to create custom end points with JWT verification checks
+
 * Allows logins from outside the WordPress dashboard which returns a JWT token
+
 * Allows already logged in users to get a JWT token through the wp_ajax system
+
 * Designed to be used with Composer
+
 * Does not require a GUI and is solely a code-based solution
 
 ## Current Issues/Decisions
@@ -20,29 +23,48 @@ This plugin:
 ## Requirements
 
 * Composer
-* WordPress install (works well with a [WordPress Composer](https://github.com/gemmadlou/WordPress-Composer-Starter) project)
+* [WordPress Composer install](https://github.com/gemmadlou/WordPress-Composer-Starter) project)
 * A PHP server development environment
 * cURL
 
-## Installation
+## Initialise the JWT token routing
 
-Instructions coming soon.
+This plugin is completely unopinionated about where you define the secret. It could go
+in the .env, or you could choose to put it within the database.
+
+> A secret must have 
+> - 12 characters
+> - lower cases
+> - upper cases
+> - a number
+> - a symbol.
+
+```
+> themes/theme-folder/functions.php
+```
+```php
+<?php
+
+use Wcom\Jwt\JsonAuth;
+
+JsonAuth::initDefaultRoutes('MY_SEcRET_123!');
+```
 
 ## Login
 
 This allows you to log into WordPress from outside the WordPress dashboard.
 
-##### Method
+##### # Method
 ```
 POST
 ```
 
-##### Route
+##### # Route
 ```
 /wp-json/wcom/jwt/v1/action/login 
 ```
 
-##### Parameters
+##### # Parameters
 ```
 username : string
 admin : string
@@ -70,6 +92,8 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 This grabs a token that you can use within the WordPress dashboard. This uses WordPress' wp_ajax
 rather than their Rest API. This means, the current user would be logged in.
 
+#### jQuery example
+
 ```javascript
 jQuery.post(ajaxurl, {
   'action': 'wcom_json_auth_token'
@@ -78,16 +102,52 @@ jQuery.post(ajaxurl, {
 })
 ```
 
+#### Fetch example
+
+```javascript
+var formData = new FormData();
+formData.append('action', 'wcom_json_auth_token');
+
+fetch('http://192.168.74.100/wordpress/wp-admin/admin-ajax.php', {
+  method: 'POST',
+  body: formData,
+  credentials: 'include'
+})
+.catch(error => console.error('Error:', error))
+.then(response => console.log('Success:', response));
+```
+
+> `credentials: 'include'` ensures that cookies in the user's browser,
+> set by WordPress are included in the ajax request.
+
+#### Axios example 
+
+**Needs verifying axios works**:
+
+```javascript
+axios
+  .post('http://192.168.74.100/wordpress/wp-admin/admin-ajax.php', {
+    action: 'wcom_json_auth_token'
+  },{
+    withCredentials: true
+  })
+  .then(response => {
+    console.log(response)
+  }).catch(response => {
+    console.log("oh no, an error: " + response.message)
+  })
+```
+
 ## Verify
 
 This will verify your JWT, regardless of how you attained it (via login or wp_ajax).
 
-##### Method
+##### # Method
 ```
 GET
 ```
 
-##### Route
+##### # Route
 ```
 /wp-json/wcom/jwt/v1/verify
 ```
@@ -108,15 +168,16 @@ curl -X GET "http://192.168.74.100/wp-json/wcom/jwt/v1/verify" \
 }
 ```
 
-## Check authorisation
+## Check authorisation for new end points
 
-Users should send the JWT through an Authentication Bearer header. 
+When you create a new endpoint that requires authorisation, send the generated JWT 
+through an Authentication Bearer header.
 
 ```
 "Authorization: Bearer $TOKEN"
 ```
 
-To check whether a submitted JWT is verified within your code, use the following: 
+To check whether a submitted JWT is correct, verify as follows: 
 
 ```php
 <?php
@@ -166,8 +227,9 @@ curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/posts \
 
 ## Todo
 
-* Refresh token
+* Refresh token ? not sure if we need it
 * Interface to react with plugin
+* Correct error messages, dependent on validation
 
 ## Important Notes:
 
@@ -175,6 +237,10 @@ curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/posts \
 * Authorization headers were used instead of cookies after working with Digital Ocean's v2 API, which sets a good standard.
 * Use HTTPS for extra security.
 * Do not store JWT tokens in localStorage unless you are prepared to add further verification methods to prevent CSRF attacks. I've yet clue myself up on this yet, but this video might be a good start: https://www.youtube.com/watch?v=2uvrGQEy8i4
+
+## Contribute
+
+Feel free to make a pull request or raise an issue.
 
 ## Resources
 
