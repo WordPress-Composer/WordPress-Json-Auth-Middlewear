@@ -1,6 +1,32 @@
 # WordPress JWT Authorization Middlewear
 
-Wordpress JWT Middlewear
+> Currently in progress. Not ready for production.
+
+WordPress has an awesome Rest API interface that allows us to create custom endpoints. However, custom endpoints that require authentication aren't part of their Rest API. Instead,
+they have advised we use [plugins](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/) to achieve this.
+
+This plugin:
+
+* Provides a simple API for developers to create custom end points and have authentication with a JWT system.
+* Allows logins from outside the WordPress dashboard which returns a JWT token
+* Allows already logged in users to get a JWT token through the wp_ajax system
+* Designed to be used with Composer
+* Does not require a GUI and is solely a code-based solution
+
+## Current Issues/Decisions
+
+* Whether to make this a WordPress Composer plugin or a simple Composer package.
+
+## Requirements
+
+* Composer
+* WordPress install (works well with a [WordPress Composer](https://github.com/gemmadlou/WordPress-Composer-Starter) project)
+* A PHP server development environment
+* cURL
+
+## Installation
+
+Instructions coming soon.
 
 ## Login
 
@@ -41,9 +67,8 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 
 ## Get Token From Within WordPress Admin
 
-This grabs a token that you can use within the WordPress dashboard. Sorry it's in jQuery,
-but WordPress admin still uses jQuery and doesn't look to be removing it anytime soon. But feel free
-to use fetch or axios etc.
+This grabs a token that you can use within the WordPress dashboard. This uses WordPress' wp_ajax
+rather than their Rest API. This means, the current user would be logged in.
 
 ```javascript
 jQuery.post(ajaxurl, {
@@ -55,8 +80,7 @@ jQuery.post(ajaxurl, {
 
 ## Verify
 
-This will verify your JWT is verified, regardless of whether you logged in to
-get it, or created a token once you logged into the dashboard.
+This will verify your JWT, regardless of how you attained it (via login or wp_ajax).
 
 ##### Method
 ```
@@ -86,16 +110,23 @@ curl -X GET "http://192.168.74.100/wp-json/wcom/jwt/v1/verify" \
 
 ## Check authorisation
 
-Just use the helper function 
+Users should send the JWT through an Authentication Bearer header. 
+
+```
+"Authorization: Bearer $TOKEN"
+```
+
+To check whether a submitted JWT is verified within your code, use the following: 
 
 ```php
+<?php
+
 JsonAuth::check($secret)
 ```
 
 #### Example: getting all posts including private and unpublished ones
 
-Add the following to your functions.php or an alternative location that gets
-loaded outside the add_actions.
+Add the following to your functions.php or an alternative location.
 
 ```
 > /theme/functions.php
@@ -136,6 +167,14 @@ curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/posts \
 ## Todo
 
 * Refresh token
+* Interface to react with plugin
+
+## Important Notes:
+
+* Do not put sensitive information within the JWT Token.
+* Authorization headers were used instead of cookies after working with Digital Ocean's v2 API, which sets a good standard.
+* Use HTTPS for extra security.
+* Do not store JWT tokens in localStorage unless you are prepared to add further verification methods to prevent CSRF attacks. I've yet clue myself up on this yet, but this video might be a good start: https://www.youtube.com/watch?v=2uvrGQEy8i4
 
 ## Resources
 
