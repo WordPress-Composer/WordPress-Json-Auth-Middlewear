@@ -214,6 +214,7 @@ curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/test \
 
 ## Roadmap
 
+* [ ] Double access tokens [Issue #2](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues/2)
 * [ ] Refresh token functionality, including saving tokens and creation date in database
 * [ ] Create anti corruption layer to protect users of this plugin
 * [ ] Correct error messages, dependent on validation
