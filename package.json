@@ -7,8 +7,10 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "./vendor/bin/phpunit tests --colors=always",
-    "test:watch": "./node_modules/.bin/onchange 'tests/**/*.php' 'src/**/*.php' -- npm test"
+    "test": "npm run static-analysis && npm run test:php",
+    "test:php" : "./vendor/bin/phpunit tests --colors=always",
+    "test:watch": "./node_modules/.bin/onchange 'tests/**/*.php' 'src/**/*.php' --  npm test",
+    "static-analysis": "./vendor/bin/phpstan analyse src/Domain --level 7"
   },
   "repository": {
     "type": "git",
