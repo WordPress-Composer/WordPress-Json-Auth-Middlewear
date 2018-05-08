@@ -1,27 +1,33 @@
 # WordPress JWT Authorization
 
-<br>
+<a href="https://codeclimate.com/github/WordPress-Composer/WordPress-Json-Auth-Middlewear/maintainability"><img src="https://api.codeclimate.com/v1/badges/1c3c74c309c54de51e59/maintainability" /></a>
 
-> Currently in progress.
+> In development
 
 #### The problem
 
-We have to use wp_ajax to make user authorized requests. However, can't we use the WordPress Rest API
-to make authorized requests too?
+WordPress has a wp_ajax function that allows us to make authorized requests. However, this plugin allows developers to use Rest APIs and have authorisation.
 
-#### The solution
+#### The solution
 
 This plugin:
 
-* Provides a simple API for developers to create custom WordPress Rest API end points with JWTs
+* Has a low-level API to get JWT access tokens.
 
-* Allows logins from outside the WordPress dashboard which returns a JWT
+* Provides a simple solution for developers to create custom WordPress Rest API end points with JWTs.
 
-* Allows already logged in users to get a JWT through the wp_ajax system
+* Allows logins from outside the WordPress dashboard which returns a JWT.
 
-* Designed to be used with Composer
+* Does not require a GUI and is solely a code-based solution.
 
-* Does not require a GUI and is solely a code-based solution
+## Roadmap
+
+* [ ] Double access tokens [Issue #2](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues/2)
+* [ ] Refresh token functionality, including saving tokens and creation date in database
+* [ ] Create anti corruption layer to protect users of this plugin
+* [ ] Correct error messages, dependent on validation
+* [ ] Account for unhappy paths
+* [ ] Create a Jekyll repo for this project (with better documentation instructions)
 
 ## Requirements
 
@@ -211,15 +217,6 @@ add_action('rest_api_init', function() use ($secret) {
 curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/test \
     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC8xOTIuMTY4Ljc0LjEwMCIsImV4cCI6IjIwMTgtMDQtMDQgMTc6MjY6MjAiLCJzdWIiOiIiLCJhdWQiOiIifQ.gFJupqx4hRACqWtZoKYjDCOepd8WZcKvtQgLf_U2578" 
 ```
-
-## Roadmap
-
-* [ ] Double access tokens [Issue #2](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues/2)
-* [ ] Refresh token functionality, including saving tokens and creation date in database
-* [ ] Create anti corruption layer to protect users of this plugin
-* [ ] Correct error messages, dependent on validation
-* [ ] Account for unhappy paths
-* [ ] Create a Jekyll repo for this project (with better documentation instructions)
 
 ## Important Notes:
 
