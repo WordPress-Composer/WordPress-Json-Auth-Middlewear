@@ -205,19 +205,21 @@ add_action('rest_api_init', function() use ($secret) {
 });
 ```
 
-#### Test your new route works
+#### Test that your new route works
 
 ```
 curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/test \
     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC8xOTIuMTY4Ljc0LjEwMCIsImV4cCI6IjIwMTgtMDQtMDQgMTc6MjY6MjAiLCJzdWIiOiIiLCJhdWQiOiIifQ.gFJupqx4hRACqWtZoKYjDCOepd8WZcKvtQgLf_U2578" 
 ```
 
-## Todo
+## Roadmap
 
-* Refresh token ? not sure if we need it
-* Interface to react with plugin
-* Correct error messages, dependent on validation
-* Code unhappy paths
+* [ ] Double access tokens [Issue #2](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues/2)
+* [ ] Refresh token functionality, including saving tokens and creation date in database
+* [ ] Create anti corruption layer to protect users of this plugin
+* [ ] Correct error messages, dependent on validation
+* [ ] Account for unhappy paths
+* [ ] Create a Jekyll repo for this project (with better documentation instructions)
 
 ## Important Notes:
 
