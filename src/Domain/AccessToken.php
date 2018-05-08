@@ -4,11 +4,21 @@ namespace Wcom\Jwt\Domain;
 
 use Exception;
 
+/**
+ * Access token
+ * @author Gemma Black <gblackuk@gmail.com>
+ */
 class AccessToken
 {
 
     private $token;
 
+    /**
+     * Defines the access token
+     *
+     * @param string $accessToken
+     * @return AccessToken
+     */
     public static function define($accessToken)
     {
         if (!is_string($accessToken)) {
@@ -22,6 +32,12 @@ class AccessToken
         return new static($accessToken);
     }
 
+    /**
+     * Checks if has JWT structure
+     *
+     * @param string $value
+     * @return boolean
+     */
     private static function isJWTStructure($value)
     {
         $testing = explode('.', $value);
@@ -42,6 +58,11 @@ class AccessToken
         $this->token = $token;
     }
 
+    /**
+     * Gets the AccessToken value
+     *
+     * @return string
+     */
     public function val()
     {
         return $this->token;
