@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "npm run static-analysis && npm run test:php",
+    "test": "npm run static-analysis && npm run test:php --silent",
     "test:php" : "./vendor/bin/phpunit tests --colors=always",
     "test:watch": "./node_modules/.bin/onchange 'tests/**/*.php' 'src/**/*.php' --  npm test",
     "static-analysis": "./vendor/bin/phpstan analyse src/Domain --level 7"

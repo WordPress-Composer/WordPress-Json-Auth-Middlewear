@@ -1,6 +1,7 @@
 # WordPress JWT Authorization
 
 <a href="https://codeclimate.com/github/WordPress-Composer/WordPress-Json-Auth-Middlewear/maintainability"><img src="https://api.codeclimate.com/v1/badges/1c3c74c309c54de51e59/maintainability" /></a>
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/blob/master/LICENSE)
 
 > In development
 
@@ -22,12 +23,22 @@ This plugin:
 
 ## Roadmap
 
-* [ ] Double access tokens [Issue #2](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues/2)
-* [ ] Refresh token functionality, including saving tokens and creation date in database
+* [ ] Double access tokens [Issue #2](https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues/2)  
+   This is for extra security. Using Authorization header tokens alone mean you're susceptible to XSS attacks. Using session cookies along mean your vulnerable to CSRF attacks. For more information read [here](http://www.redotheweb.com/2015/11/09/api-security.html).
+
+* [ ] Publish a 0.0.1 version to Composer
+
 * [ ] Create anti corruption layer to protect users of this plugin
-* [ ] Correct error messages, dependent on validation
-* [ ] Account for unhappy paths
+   Protect the plugin from changes to the API. And also protect users by creating a standard outward facing API.
+
+* [ ] Account for unhappy paths in code  
+   Ensure correct errors are thrown and captured, and maybe implement a monadic sequence within a workflow.
+
 * [ ] Create a Jekyll repo for this project (with better documentation instructions)
+   The docs here look quite ugly. So instead, it'd be better to create a simple static-site repo, Jekyll, Gatsby or the like.
+
+* [ ] Refresh token functionality, including saving tokens and creation date in database  
+  It's considered a good solution to prevent users from having to log in everytime they return to the site. Depending on the upcoming use cases, this may be prioritized higher.
 
 ## Requirements
 

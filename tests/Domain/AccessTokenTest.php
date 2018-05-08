@@ -25,7 +25,7 @@ class AccessTokenTest extends TestCase
     public function test_sets_access_token()
     {
         $token = AccessToken::define($this->jwt);
-        $this->assertEquals($this->jwt, $token);
+        $this->assertEquals($this->jwt, $token->val());
     }
 
     public function test_only_accepts_strings1()

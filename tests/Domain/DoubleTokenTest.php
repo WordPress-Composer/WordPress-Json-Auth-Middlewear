@@ -28,7 +28,7 @@ class DoubleTokenTest extends TestCase
     public function test_sets_double_access_tokens_when_different()
     {
         $token = DoubleToken::accept(AccessToken::define($this->jwt1), AccessToken::define($this->jwt2));
-        $this->assertEquals($this->jwt1, $token->cookie());
-        $this->assertEquals($this->jwt2, $token->header());
+        $this->assertEquals($this->jwt1, $token->cookie()->val());
+        $this->assertEquals($this->jwt2, $token->header()->val());
     }
 }

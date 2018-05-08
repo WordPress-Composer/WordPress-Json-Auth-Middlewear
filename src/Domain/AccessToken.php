@@ -42,7 +42,7 @@ class AccessToken
         $this->token = $token;
     }
 
-    public function __toString()
+    public function val()
     {
         return $this->token;
     }
