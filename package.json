@@ -1,0 +1,26 @@
+{
+  "name": "wp-jwt-auth",
+  "version": "0.0.1",
+  "description": "WordPress JWT auth helper for use with the WPRest API",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit tests --colors=always",
+    "test:watch": "./node_modules/.bin/onchange 'tests/**/*.php' 'src/**/*.php' -- npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear.git"
+  },
+  "author": "Gemma Black <gblackuk@googlemail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear/issues"
+  },
+  "homepage": "https://github.com/WordPress-Composer/WordPress-Json-Auth-Middlewear#readme",
+  "devDependencies": {
+    "onchange": "^4.0.0"
+  }
+}

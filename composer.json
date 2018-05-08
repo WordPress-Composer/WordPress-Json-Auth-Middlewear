@@ -1,13 +1,16 @@
 {
-    "name": "wordpresscomposer/json-auth-middlewear",
-    "description": "WordPress middlewear for the rest api with JWT authorisation",
+    "name": "wp/jwt-auth",
+    "description": "WordPress JWT auth helper for use with the WPRest API",
     "require": {
         "rbdwllr/reallysimplejwt": "~1"
     },
     "autoload": {
         "psr-4": {
-            "WCOM\\Jwt\\": "src/",
             "Wcom\\Jwt\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.*",
+        "giorgiosironi/eris": "^0.10.0"
     }
 }
