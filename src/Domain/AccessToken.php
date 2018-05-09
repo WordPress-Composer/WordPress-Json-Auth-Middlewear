@@ -59,6 +59,16 @@ class AccessToken
     }
 
     /**
+     * Gets the AccessToken string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->token;
+    }
+
+    /**
      * Gets the AccessToken value
      *
      * @return string

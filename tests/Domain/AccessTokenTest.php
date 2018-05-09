@@ -28,6 +28,12 @@ class AccessTokenTest extends TestCase
         $this->assertEquals($this->jwt, $token->val());
     }
 
+    public function test_can_retrieve_access_token_as_string()
+    {
+        $token = AccessToken::define($this->jwt);
+        $this->assertEquals($this->jwt, $token);
+    }
+
     public function test_only_accepts_strings1()
     {
         $this

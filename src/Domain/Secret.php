@@ -37,6 +37,16 @@ class Secret
     }
 
     /**
+     * Returns the secret string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->secret;
+    }
+
+    /**
      * Gets value
      *
      * @return string

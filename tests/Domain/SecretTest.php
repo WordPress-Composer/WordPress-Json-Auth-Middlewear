@@ -12,6 +12,12 @@ class SecretTest extends TestCase
         $this->assertEquals('MySecret101!', $secret->val());
     }
 
+    public function test_can_retrieve_string_value()
+    {
+        $secret = Secret::set('MySecret101!');
+        $this->assertEquals('MySecret101!', $secret);
+    }
+
     public function test_secret_must_be_string1()
     {
         $this->expectException(DomainException::class);
