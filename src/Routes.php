@@ -4,56 +4,58 @@ namespace Wcom\Jwt;
 
 use ReallySimpleJWT\Token;
 use Wcom\Jwt\JsonAuth;
-use WP_REST_Request;
+use Wcom\Jwt\Facades\WordPress;
+use Exception;
 
 class Routes
 {
-    public static function wpAjaxToken($secret)
+
+    public static function wpAjaxToken(WordPress $wp, $secret)
     {
-        add_action('wp_ajax_wcom_json_auth_token', function() use ($secret) {
-            $auth = wp_get_current_user();
+        $wp->addAction('wp_ajax_wcom_json_auth_token', function() use ($secret, $wp) {
+            $auth = $wp->currentUser();
         
-            if (is_wp_error($auth)) {
-                wp_send_json_error($auth->get_error_data(), 400);
+            if ($wp->isError($auth)) {
+                $wp->sendJsonError($auth->get_error_data(), 400);
             }
             
             $token = Token::getToken(
                 $auth->ID, 
                 $secret, 
                 JsonAuth::expiryDate(), 
-                get_home_url()
+                $wp->homeUrl()
             );
         
-            wp_send_json([
+            $wp->sendJson([
                 'token' => $token   
             ]);
         });
     }
 
-    public static function login($secret)
+    public static function login(WordPress $wp, $secret)
     {
-        add_action('rest_api_init', function() use ($secret) {
-            register_rest_route('wcom/jwt/v1', '/action/login', [
+        $wp->addAction('rest_api_init', function() use ($secret, $wp) {
+            $wp->registerRestRoute('wcom/jwt/v1', '/action/login', [
                 'methods' => 'POST',
-                'callback' => function(WP_REST_Request $request) use ($secret) {
+                'callback' => function($request) use ($secret, $wp) {
                     
                     $username = $request->get_param('username');
                     $password = $request->get_param('password');
         
-                    $auth = wp_authenticate($username, $password);
+                    $auth = $wp->authenticate($username, $password);
                     
-                    if (is_wp_error($auth)) {
-                        return wp_send_json_error($auth->get_error_data(), 400);
+                    if ($wp->isError($auth)) {
+                        $wp->sendJsonError($auth->errorData(), 400);
                     }
         
                     $token = Token::getToken(
                         $auth->ID, 
                         $secret, 
                         JsonAuth::expiryDate(), 
-                        get_home_url()
+                        $wp->homeUrl()
                     );
         
-                    wp_send_json([
+                    $wp->sendJson([
                         'token_type' => 'bearer',
                         'token' => $token   
                     ]);
@@ -62,39 +64,39 @@ class Routes
         });
     }
 
-    public static function verify($secret)
+    public static function verify(WordPress $wp, $secret)
     {
-        add_action('rest_api_init', function() use ($secret) {
-            register_rest_route('wcom/jwt/v1', '/verify', [
+        $wp->addAction('rest_api_init', function() use ($secret, $wp) {
+            $wp->registerRestRoute('wcom/jwt/v1', '/verify', [
                 'methods' => 'GET',
-                'callback' => function(WP_REST_Request $request) use ($secret) {
+                'callback' => function($request) use ($secret, $wp) {
                     $auth = JsonAuth::check($secret);
         
-                    if ($auth instanceof Exception) {
-                        wp_send_json_error($auth->getMessage(), 400);
+                    if (!$auth) {
+                        $wp->sendJsonError('Invalid token', 400);
                     } else {
-                        wp_send_json(['success' => true]);
+                        $wp->sendJson(['success' => true]);
                     }
                 }
             ]);
         });
     }
 
-    public static function lastTenPosts($secret)
+    public static function lastTenPosts(WordPress $wp, $secret)
     {
-        add_action('rest_api_init', function() use ($secret) {
-            register_rest_route('wcom/jwt/v1', '/posts', [
+        $wp->addAction('rest_api_init', function() use ($secret, $wp) {
+            $wp->registerRestRoute('wcom/jwt/v1', '/posts', [
                 'methods' => 'GET',
-                'callback' => function(WP_REST_Request $request) use ($secret) {
+                'callback' => function($request) use ($secret, $wp) {
                     
                     $auth = JsonAuth::check($secret);
         
                     if (!$auth) {
-                        wp_send_json_error([], 400);
+                        $wp->sendJsonError([], 400);
                     } else {
-                        wp_send_json([
+                        $wp->sendJson([
                             'success' => true, 
-                            'posts' => get_posts([
+                            'posts' => $wp->posts([
                                 'post_status' => ['any'],
                                 'posts_per_page' => 10
                             ])

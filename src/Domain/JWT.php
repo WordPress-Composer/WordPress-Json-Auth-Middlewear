@@ -18,4 +18,13 @@ interface JWT
      * @return AccessToken
      */
     public function generate(UserId $id, Secret $secret, ExpiryDate $expiryDate, HomeUrl $url);
+
+    /**
+     * Verifies the access token
+     *
+     * @param DoubleToken $doubleToken
+     * @param Secret $secret
+     * @return bool
+     */
+    public function verify(DoubleToken $doubleToken, Secret $secret);
 }

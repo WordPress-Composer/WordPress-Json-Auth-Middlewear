@@ -3,18 +3,24 @@
 namespace Wcom\Jwt;
 
 use ReallySimpleJWT\Token;
+use Wcom\Jwt\Facades\WordPress;
 use Exception;
 
 class JsonAuth
 {
     public static function initDefaultRoutes($secret)
     {
-        Routes::wpAjaxToken($secret);
-        Routes::login($secret);
-        Routes::verify($secret);
-        Routes::lastTenPosts($secret);
+        $wp = new WordPress;
+        Routes::wpAjaxToken($wp, $secret);
+        Routes::login($wp, $secret);
+        Routes::verify($wp, $secret);
+        Routes::lastTenPosts($wp, $secret);
     }
 
+    /**
+     * Verifies the token is valid
+     * @return int|bool Int for userId or bool for false
+     */
     public static function verify($token, $secret)
     {
 
@@ -31,20 +37,31 @@ class JsonAuth
         $data = Token::getPayload($token);
         $decoded = json_decode($data);
 
-        return !isset($decoded->user_id);
+        return isset($decoded->user_id);
 
     }
 
     public static function expiryDate()
     {
-        return date('Y-m-d H:i:s', strtotime('+1 seconds'));
+        return date('Y-m-d H:i:s', strtotime('+1 hour'));
     }
 
+    /**
+     * Checks the secret
+     *
+     * @param string $secret
+     * @return int|bool
+     */
     public static function check($secret)
     {
         return self::verify(self::getTokenFromRequest(), $secret);
     }
 
+    /**
+     * Gets token request
+     *
+     * @return string
+     */
     public static function getTokenFromRequest()
     {
         $headers = apache_request_headers();

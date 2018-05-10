@@ -7,10 +7,10 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "npm run static-analysis && npm run test:php --silent",
+    "test": "npm run static-analysis --silent && npm run test:php --silent",
     "test:php" : "./vendor/bin/phpunit tests --colors=always",
-    "test:watch": "./node_modules/.bin/onchange 'tests/**/*.php' 'src/**/*.php' --  npm test",
-    "static-analysis": "./vendor/bin/phpstan analyse src/Domain --level 7"
+    "test:watch": "npm test; ./node_modules/.bin/onchange 'tests/**/*.php' 'src/**/*.php' --  npm test",
+    "static-analysis": "./vendor/bin/phpstan analyse -c phpstan.neon --level 7 src"
   },
   "repository": {
     "type": "git",
