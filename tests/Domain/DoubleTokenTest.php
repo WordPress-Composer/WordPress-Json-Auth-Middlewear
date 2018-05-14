@@ -4,7 +4,6 @@ use Wcom\Jwt\Domain\DoubleToken;
 use Wcom\Jwt\Domain\AccessToken;
 use Wcom\Jwt\Domain\DomainException;
 use PHPUnit\Framework\TestCase;
-use TypeError;
 
 class DoubleTokenTest extends TestCase
 {

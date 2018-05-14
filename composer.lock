@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "55af480f67e677a1ef94cc41754b0094",
+    "content-hash": "e9a5a786e5a9d213123be62d94ba031a",
     "packages": [
+        {
+            "name": "delight-im/http",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/delight-im/PHP-HTTP.git",
+                "reference": "0a19a72a7eac8b1301aa972fb20cff494ac43e09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/delight-im/PHP-HTTP/zipball/0a19a72a7eac8b1301aa972fb20cff494ac43e09",
+                "reference": "0a19a72a7eac8b1301aa972fb20cff494ac43e09",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Delight\\Http\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Hypertext Transfer Protocol (HTTP) utilities for PHP",
+            "homepage": "https://github.com/delight-im/PHP-HTTP",
+            "keywords": [
+                "headers",
+                "http",
+                "https"
+            ],
+            "time": "2016-07-21T15:05:01+00:00"
+        },
         {
             "name": "nesbot/carbon",
             "version": "1.22.1",
@@ -58,6 +94,47 @@
                 "time"
             ],
             "time": "2017-01-16T07:55:07+00:00"
+        },
+        {
+            "name": "paragonie/cookie",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/PHP-Cookie.git",
+                "reference": "aae061170f7093e2cdc9dab5949fd1aab5bec2a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/PHP-Cookie/zipball/aae061170f7093e2cdc9dab5949fd1aab5bec2a7",
+                "reference": "aae061170f7093e2cdc9dab5949fd1aab5bec2a7",
+                "shasum": ""
+            },
+            "require": {
+                "delight-im/http": "^2.0",
+                "php": "^7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParagonIE\\Cookie\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Modern cookie management for PHP 7",
+            "homepage": "https://github.com/paragonie/PHP-Cookie",
+            "keywords": [
+                "cookie",
+                "cookies",
+                "csrf",
+                "http",
+                "same-site",
+                "samesite",
+                "xss"
+            ],
+            "time": "2017-06-21T16:15:52+00:00"
         },
         {
             "name": "rbdwllr/reallysimplejwt",

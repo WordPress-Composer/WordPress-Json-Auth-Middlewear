@@ -95,6 +95,7 @@ admin : string
 ```shell
 curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
     -H "Content-Type: application/json" \
+    -i \
     -d '{"username": "admin", "password": "admin"}' \
     | python -m json.tool
 ```
@@ -159,6 +160,7 @@ GET
 ```shell
 curl -X GET "http://192.168.74.100/wp-json/wcom/jwt/v1/verify" \
     -H "Authorization: Bearer $TOKEN" \
+    - i \
     | python -m json.tool
 ```
 
@@ -226,7 +228,7 @@ add_action('rest_api_init', function() use ($secret) {
 
 ```
 curl -X GET http://192.168.74.100/wp-json/wcom/jwt/v1/test \
-    -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJodHRwOlwvXC8xOTIuMTY4Ljc0LjEwMCIsImV4cCI6IjIwMTgtMDQtMDQgMTc6MjY6MjAiLCJzdWIiOiIiLCJhdWQiOiIifQ.gFJupqx4hRACqWtZoKYjDCOepd8WZcKvtQgLf_U2578" 
+    -H "Authorization: Bearer $TOKEN"
 ```
 
 ## Important Notes:

@@ -1,3 +1,5 @@
 parameters:
 	excludes_analyse:
 		- */src/Facades/*
+	ignoreErrors:
+		- '#WP_REST_Request#'

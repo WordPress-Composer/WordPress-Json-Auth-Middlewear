@@ -4,18 +4,22 @@ namespace Wcom\Jwt;
 
 use ReallySimpleJWT\Token;
 use Wcom\Jwt\Facades\WordPress;
-use Wcom\Jwt\Domain\JWT;
+use Wcom\Jwt\App\JWT;
+use Wcom\Jwt\App\Cookie;
+use Wcom\Jwt\Route\PostLogin;
+use Wcom\Jwt\Query\GetUserId;
 use Exception;
 
 class JsonAuth
 {
-    public static function initDefaultRoutes($secret)
+    public static function initDefaultRoutes($headerSecret, $cookieSecret)
     {
         $wp = new WordPress;
-        Routes::wpAjaxToken($wp, $secret);
-        Routes::login($wp, $secret);
-        Routes::verify($wp, $secret);
-        Routes::lastTenPosts($wp, $secret);
+
+        Routes::wpAjaxToken($wp, $headerSecret);
+        Routes::login($wp, $headerSecret);
+        Routes::verify($wp, $headerSecret);
+        Routes::lastTenPosts($wp, $headerSecret);
     }
 
     /**

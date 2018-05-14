@@ -24,6 +24,11 @@ class UserId
         return new self($id);
     }
 
+    /**
+     * Sets the userId privately
+     *
+     * @param int $id
+     */
     private function __construct($id)
     {
         $this->id = $id;

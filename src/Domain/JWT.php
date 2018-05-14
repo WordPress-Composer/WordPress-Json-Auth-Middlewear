@@ -12,13 +12,20 @@ interface JWT
      * Generates a JWT Token
      *
      * @param UserId $id
-     * @param Secret $secret
      * @param ExpiryDate $expiryDate
      * @param HomeUrl $url
-     * @return AccessToken
+     * @param Secret $headerSecret
+     * @param Secret $cookieSecret
+     * @return DoubleToken
      * @throws DomainException
      */
-    public function generate(UserId $id, Secret $secret, ExpiryDate $expiryDate, HomeUrl $url);
+    public function generate(
+        UserId $id, 
+        ExpiryDate $expiryDate, 
+        HomeUrl $url, 
+        Secret $headerSecret, 
+        Secret $cookieSecret
+    );
 
     /**
      * Verifies the access token

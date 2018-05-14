@@ -1,8 +1,9 @@
 {
-    "name": "wp/jwt-auth",
+    "name": "wpcomposer/jwt-auth",
     "description": "WordPress JWT auth helper for use with the WPRest API",
     "require": {
-        "rbdwllr/reallysimplejwt": "~1"
+        "rbdwllr/reallysimplejwt": "~1",
+        "paragonie/cookie": "^3.2"
     },
     "autoload": {
         "psr-4": {

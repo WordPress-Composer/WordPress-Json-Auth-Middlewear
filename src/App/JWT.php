@@ -9,33 +9,44 @@ use Wcom\Jwt\Domain\ExpiryDate;
 use Wcom\Jwt\Domain\HomeUrl;
 use Wcom\Jwt\Domain\AccessToken;
 use Wcom\Jwt\Domain\DoubleToken;
-use Wcom\Jwt\Domain\DomainException;
 use ReallySimpleJWT\Token;
 use Exception;
 
 class JWT implements iJWT
 {
 
-
     /**
      * Generates a JWT Token
      *
-     * @param UserId $userId
-     * @param Secret $secret
+     * @param UserId $id
      * @param ExpiryDate $expiryDate
      * @param HomeUrl $url
-     * @return AccessToken
+     * @param Secret $headerSecret
+     * @param Secret $cookieSecret
+     * @return DoubleToken
      * @throws DomainException
      */
-    public function generate(UserId $userId, Secret $secret, ExpiryDate $expiryDate, HomeUrl $url)
+    public function generate(
+        UserId $id, 
+        ExpiryDate $expiryDate, 
+        HomeUrl $url, 
+        Secret $headerSecret, 
+        Secret $cookieSecret
+    )
     {
         try {
-            $token = Token::getToken($userId, $secret, $expiryDate, $url);
-            return AccessToken::define($token);
+            $headerToken = Token::getToken($id, $headerSecret, $expiryDate, $url);
+            $cookieToken = Token::getToken($id, $cookieSecret, $expiryDate, $url);
         } catch (Exception $e) {
             error_log($e);
-            throw new DomainException('Could not generate Token');
+            throw new AppException('Could not generate Token');
         }
+
+        return DoubleToken::accept(
+            AccessToken::define($cookieToken),
+            AccessToken::define($headerToken)
+        );
+         
     }
 
     /**
@@ -52,7 +63,7 @@ class JWT implements iJWT
             $header = Token::validate($doubleToken->header(), $secret);
             return $cookie && $header;
         } catch (Exception $e) {
-            throw new DomainException('Could not verify token');
+            throw new AppException('Could not verify token');
         }
     }
 }
