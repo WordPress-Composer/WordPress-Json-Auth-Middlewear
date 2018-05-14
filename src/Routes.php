@@ -5,6 +5,7 @@ namespace Wcom\Jwt;
 use ReallySimpleJWT\Token;
 use Wcom\Jwt\JsonAuth;
 use Wcom\Jwt\Facades\WordPress;
+use Wcom\Jwt\App\JWT;
 use Exception;
 
 class Routes

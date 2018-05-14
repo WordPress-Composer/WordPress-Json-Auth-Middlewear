@@ -4,6 +4,7 @@ namespace Wcom\Jwt;
 
 use ReallySimpleJWT\Token;
 use Wcom\Jwt\Facades\WordPress;
+use Wcom\Jwt\Domain\JWT;
 use Exception;
 
 class JsonAuth
@@ -23,7 +24,6 @@ class JsonAuth
      */
     public static function verify($token, $secret)
     {
-
         try {
             $result = Token::validate($token, $secret);
         } catch (Exception $e) {

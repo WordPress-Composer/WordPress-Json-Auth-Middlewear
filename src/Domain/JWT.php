@@ -16,6 +16,7 @@ interface JWT
      * @param ExpiryDate $expiryDate
      * @param HomeUrl $url
      * @return AccessToken
+     * @throws DomainException
      */
     public function generate(UserId $id, Secret $secret, ExpiryDate $expiryDate, HomeUrl $url);
 
@@ -25,6 +26,7 @@ interface JWT
      * @param DoubleToken $doubleToken
      * @param Secret $secret
      * @return bool
+     * @throws DomainException
      */
     public function verify(DoubleToken $doubleToken, Secret $secret);
 }
