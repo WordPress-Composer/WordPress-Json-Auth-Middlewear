@@ -35,6 +35,7 @@ class PostLogin
      * @param Cookie $cookie
      * @param string $headerSecret
      * @param string $cookieSecret
+     * @todo use a parameter object with the builder pattern to pass in configurations
      * @return void
      */
     public static function route(
@@ -56,7 +57,7 @@ class PostLogin
                     $cookieSecret = Secret::set($cookieSecret);
                     $username = Username::set($request->get_param('username'));
                     $password = Password::set($request->get_param('password'));
-                    $expiryDate = ExpiryDate::set(new DateTime);
+                    $expiryDate = ExpiryDate::from(new DateTime, 20);
                     $homeUrl = HomeUrl::set($wp->homeUrl());
 
                     // Get user id or burn!
