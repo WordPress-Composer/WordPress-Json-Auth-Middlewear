@@ -2,26 +2,30 @@
 
 namespace Wcom\Jwt;
 
-use ReallySimpleJWT\Token;
-use Wcom\Jwt\Facades\WordPress;
-use Wcom\Jwt\App\JWT;
-use Wcom\Jwt\App\Cookie;
-use Wcom\Jwt\Route\PostLogin;
-use Wcom\Jwt\Query\GetUserId;
-use Exception;
+use Wcom\Jwt\Framework\Router;
 
+/**
+ * JWT Auth main
+ * @author Gemma Black <gblackuk@gmail.com>
+ */
 class JWTAuth
 {
-    public function initRoutes($headerSecret, $cookieSecret)
+    /**
+     * Initialise routes
+     *
+     * @param string $headerSecret
+     * @param string $cookieSecret
+     * @return void
+     */
+    public static function initRoutes($headerSecret, $cookieSecret)
     {
-        $wp = new WordPress;
-        $getUserId = new GetUserId;
-        $jwt = new JWT;
-        $cookie = new Cookie;
+        $router = new Router('wcom/jwt/v1');
 
-        Routes::wpAjaxToken($wp, $headerSecret);
-        PostLogin::route($wp, $getUserId, $jwt, $cookie, $headerSecret, $cookieSecret);
-        Routes::verify($wp, $headerSecret);
-        Routes::lastTenPosts($wp, $headerSecret);
+        $router->post('/action/authenticate', 'Action@authenticate', [
+            'headerSecret' => $headerSecret,
+            'cookieSecret' => $cookieSecret
+        ]);
+
+        
     }
 }
