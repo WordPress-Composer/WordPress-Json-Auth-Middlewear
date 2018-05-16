@@ -70,4 +70,10 @@ class ActionController
             'token' => $doubleToken->header()->val()
         ]);
     }
+
+    public function verify($params = [], $data = [])
+    {
+        $headerSecret = Secret::set($data['headerSecret']);
+        $cookieSecret = Secret::set($data['cookieSecret']);
+    }
 }

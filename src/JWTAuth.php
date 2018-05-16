@@ -26,6 +26,9 @@ class JWTAuth
             'cookieSecret' => $cookieSecret
         ]);
 
-        
+        $router->post('/action/verify', 'Action@verify', [
+            'headerSecret' => $headerSecret,
+            'cookieSecret' => $cookieSecret
+        ]);
     }
 }

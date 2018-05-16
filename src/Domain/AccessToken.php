@@ -22,11 +22,11 @@ class AccessToken
     public static function define($accessToken)
     {
         if (!is_string($accessToken)) {
-            throw new Exception('Access token should be a string');
+            throw new DomainException('Access token should be a string');
         }
 
         if (!self::isJWTStructure($accessToken)) {
-            throw new Exception('Access token is not a valid JWT');
+            throw new DomainException('Access token is not a valid JWT');
         }
 
         return new static($accessToken);
@@ -38,7 +38,7 @@ class AccessToken
      * @param string $value
      * @return boolean
      */
-    private static function isJWTStructure($value)
+    protected static function isJWTStructure($value)
     {
         $testing = explode('.', $value);
 
@@ -53,7 +53,7 @@ class AccessToken
         return count($shortParts) === 0;
     }
 
-    private function __construct($token)
+    protected function __construct($token)
     {
         $this->token = $token;
     }

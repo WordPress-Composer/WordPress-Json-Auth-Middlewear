@@ -93,7 +93,7 @@ admin : string
 #### Example
 
 ```shell
-curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
+curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/authenticate \
     -H "Content-Type: application/json" \
     -i \
     -d '{"username": "admin", "password": "admin"}' \
@@ -102,7 +102,13 @@ curl -X POST http://192.168.74.100/wp-json/wcom/jwt/v1/action/login \
 
 #### Response
 
-```json
+```http
+HTTP/1.1 200 OK
+
+Access-Control-Allow-Headers: Authorization, Content-Type
+Set-Cookie: wcom_jwt=dddddddd.eeeeeeeeee.fffffffffff; path=/; httponly; SameSite=Strict
+Content-Type: application/json; charset=UTF-8
+
 {
     "token": "aaaaaaaaaa.bbbbbbbbbb.ccccccccc"
 }

@@ -1,6 +1,7 @@
 <?php 
 
 use Wcom\Jwt\Domain\AccessToken;
+use Wcom\Jwt\Domain\DomainException;
 use PHPUnit\Framework\TestCase;
 use Eris\Generator;
 use Eris\TestTrait;
@@ -61,7 +62,7 @@ class AccessTokenTest extends TestCase
                 try {
                     AccessToken::define($int);
                     $this->fail('This call should raise exception! ' . $int);
-                } catch (Exception $e) {
+                } catch (DomainException $e) {
                     $this->assertEquals(
                         'Access token should be a string',
                         $e->getMessage()
@@ -76,7 +77,7 @@ class AccessTokenTest extends TestCase
      */
     public function test_only_accepts_string2()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Access token should be a string');
         AccessToken::define([]);
     }
@@ -87,7 +88,7 @@ class AccessTokenTest extends TestCase
      */
     public function test_only_accepts_properly_formatted_strings()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Access token is not a valid JWT');
         AccessToken::define($this->tooShortJwt);
     }

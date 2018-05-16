@@ -1,10 +1,10 @@
 <?php
 
-use Wcom\Jwt\Domain\HeaderToken;
+use Wcom\Jwt\Domain\CookieToken;
 use Wcom\Jwt\Domain\DomainException;
 use PHPUnit\Framework\TestCase;
 
-class HeaderTokenTest extends TestCase
+class CookieTokenTest extends TestCase
 {
     /**
      * Example JWT
@@ -21,7 +21,7 @@ class HeaderTokenTest extends TestCase
 
     public function test_is_settable()
     {
-        $token = HeaderToken::define($this->jwt);
+        $token = CookieToken::define($this->jwt);
         $this->assertEquals($this->jwt, $token->val());
     }
 
@@ -31,7 +31,7 @@ class HeaderTokenTest extends TestCase
      */
     public function test_can_retrieve_access_token_as_string()
     {
-        $token = HeaderToken::define($this->jwt);
+        $token = CookieToken::define($this->jwt);
         $this->assertEquals($this->jwt, $token);
     }
 
@@ -42,8 +42,8 @@ class HeaderTokenTest extends TestCase
     public function test_only_accepts_strings1()
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Header token should be a string');
-        HeaderToken::define(123);
+        $this->expectExceptionMessage('Cookie token should be a string');
+        CookieToken::define(123);
     }
 
     /**
@@ -53,7 +53,7 @@ class HeaderTokenTest extends TestCase
     public function test_only_accepts_properly_formatted_strings()
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Header token is not a valid JWT');
-        HeaderToken::define($this->tooShortJwt);
+        $this->expectExceptionMessage('Cookie token is not a valid JWT');
+        CookieToken::define($this->tooShortJwt);
     }
 }
